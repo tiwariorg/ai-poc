@@ -1,0 +1,27 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - '**'
+  pull_request:
+    branches:
+      - '**'
+
+jobs:
+  validate:
+    name: Validate HTML
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Verify index.html exists
+        run: test -f index.html
+
+      - name: Verify index.html contains 'Hello World'
+        run: grep -q 'Hello World' index.html
+
+      - name: Verify index.html contains '<!DOCTYPE html>'
+        run: grep -q '<!DOCTYPE html>' index.html

@@ -4,8 +4,141 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Hello World</title>
+    <style>
+      /* ── Google Fonts ─────────────────────────────────────────────────── */
+      @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Playfair+Display:wght@700&display=swap');
+
+      /* ── Reset ────────────────────────────────────────────────────────── */
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: 'Inter', sans-serif;
+      }
+
+      /* ── Hero wrapper ─────────────────────────────────────────────────── */
+      .hero {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        padding: 1rem;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      }
+
+      /* ── Card ─────────────────────────────────────────────────────────── */
+      .card {
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 1.5rem;
+        padding: 3rem 4rem;
+        box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+        text-align: center;
+        max-width: 600px;
+        width: 100%;
+        opacity: 0;
+        animation: fadeInUp 1s ease-out forwards;
+      }
+
+      /* ── Heading ──────────────────────────────────────────────────────── */
+      h1 {
+        font-family: 'Playfair Display', serif;
+        font-size: 3.5rem;
+        font-weight: 700;
+        color: #2d3748;
+        margin-top: 0;
+        margin-bottom: 0.5rem;
+        line-height: 1.15;
+      }
+
+      /* ── Decorative divider ───────────────────────────────────────────── */
+      .divider {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        margin: 1rem 0;
+      }
+
+      .divider::before,
+      .divider::after {
+        content: '';
+        display: block;
+        width: 3rem;
+        height: 1px;
+        background: linear-gradient(90deg, transparent, #cbd5e0);
+      }
+
+      .divider::after {
+        background: linear-gradient(90deg, #cbd5e0, transparent);
+      }
+
+      .divider-dot {
+        display: block;
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: #667eea;
+      }
+
+      /* ── Tagline ──────────────────────────────────────────────────────── */
+      .tagline {
+        font-size: 1.25rem;
+        font-weight: 300;
+        color: #718096;
+        margin-top: 0.5rem;
+        margin-bottom: 0;
+        letter-spacing: 0.02em;
+      }
+
+      /* ── Animation ────────────────────────────────────────────────────── */
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* ── Responsive – tablet ──────────────────────────────────────────── */
+      @media (max-width: 768px) {
+        h1 {
+          font-size: 2.5rem;
+        }
+
+        .card {
+          padding: 2rem 1.5rem;
+        }
+      }
+
+      /* ── Responsive – mobile ──────────────────────────────────────────── */
+      @media (max-width: 480px) {
+        h1 {
+          font-size: 2rem;
+        }
+
+        .tagline {
+          font-size: 1rem;
+        }
+      }
+    </style>
   </head>
   <body>
-    <h1>Hello World</h1>
+    <div class="hero">
+      <div class="card">
+        <h1>Hello World</h1>
+        <div class="divider" aria-hidden="true">
+          <span class="divider-dot"></span>
+        </div>
+        <p class="tagline">Welcome to something beautiful.</p>
+      </div>
+    </div>
   </body>
 </html>

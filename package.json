@@ -1,0 +1,25 @@
+{
+  "name": "ai-poc",
+  "version": "1.0.0",
+  "description": "Initialized by AI agent.",
+  "main": "index.js",
+  "scripts": {
+    "test": "vitest run",
+    "lint": "echo 'No linter configured' && exit 0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tiwariorg/ai-poc.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tiwariorg/ai-poc/issues"
+  },
+  "homepage": "https://github.com/tiwariorg/ai-poc#readme",
+  "devDependencies": {
+    "js-yaml": "^4.1.0",
+    "vitest": "^0.34.6"
+  }
+}

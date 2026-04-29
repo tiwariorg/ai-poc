@@ -1,0 +1,120 @@
+/* LoginForm.module.css – KAN-13 */
+
+/* ─── Layout wrapper ──────────────────────────────────────────────────────── */
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #f5f5f5;
+}
+
+/* ─── Card ────────────────────────────────────────────────────────────────── */
+
+.form {
+  background-color: #ffffff;
+  padding: 40px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px;
+  box-sizing: border-box;
+}
+
+/* ─── Heading ─────────────────────────────────────────────────────────────── */
+
+/*
+ * The ticket spec names this class `.title`; LoginForm.tsx references
+ * `.heading`.  Both are defined as aliases so the component works without
+ * modification while satisfying the spec.
+ */
+
+.title,
+.heading {
+  text-align: center;
+  margin-bottom: 24px;
+  color: #333333;
+  font-size: 28px;
+  font-weight: 700;
+  margin-top: 0;
+}
+
+/* ─── Field group ─────────────────────────────────────────────────────────── */
+
+/*
+ * The ticket spec names this class `.fieldGroup`; LoginForm.tsx references
+ * `.field`.  Both are defined as aliases.
+ */
+
+.fieldGroup,
+.field {
+  margin-bottom: 16px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ─── Label ───────────────────────────────────────────────────────────────── */
+
+.label {
+  margin-bottom: 6px;
+  font-size: 14px;
+  color: #555555;
+  font-weight: 600;
+}
+
+/* ─── Input ───────────────────────────────────────────────────────────────── */
+
+.input {
+  padding: 10px 12px;
+  border: 1px solid #dddddd;
+  border-radius: 4px;
+  font-size: 16px;
+  outline: none;
+  transition: border-color 0.2s ease;
+  width: 100%;
+  box-sizing: border-box;
+  color: #1a1a1a;
+  background-color: #ffffff;
+}
+
+.input:focus {
+  border-color: #4a90d9;
+}
+
+/* ─── Submit button ───────────────────────────────────────────────────────── */
+
+/*
+ * The ticket spec names this class `.button`; LoginForm.tsx references
+ * `.submitButton`.  Both are defined as aliases.
+ */
+
+.button,
+.submitButton {
+  width: 100%;
+  padding: 12px;
+  background-color: #4a90d9;
+  color: #ffffff;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: 8px;
+  transition: background-color 0.2s ease;
+}
+
+.button:hover,
+.submitButton:hover {
+  background-color: #357abd;
+}
+
+.button:active,
+.submitButton:active {
+  background-color: #2a6199;
+}
+
+.button:focus-visible,
+.submitButton:focus-visible {
+  outline: 3px solid rgba(74, 144, 217, 0.5);
+  outline-offset: 2px;
+}

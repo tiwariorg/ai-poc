@@ -2,10 +2,14 @@
   "name": "ai-poc",
   "version": "1.0.0",
   "description": "Initialized by AI agent.",
+  "type": "module",
   "main": "index.js",
   "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "preview": "vite preview",
     "test": "vitest run",
-    "lint": "echo 'No linter configured' && exit 0"
+    "lint": "eslint src --ext ts,tsx"
   },
   "repository": {
     "type": "git",
@@ -19,7 +23,32 @@
   },
   "homepage": "https://github.com/tiwariorg/ai-poc#readme",
   "devDependencies": {
+    "@eslint/js": "^9.39.4",
+    "@tailwindcss/vite": "^4.2.4",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.2",
+    "@testing-library/user-event": "^14.6.1",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^4.3.4",
+    "eslint": "^9.39.4",
+    "eslint-plugin-react-hooks": "^7.1.1",
+    "eslint-plugin-react-refresh": "^0.5.2",
+    "globals": "^17.5.0",
     "js-yaml": "^4.1.0",
-    "vitest": "^0.34.6"
+    "jsdom": "^24.1.3",
+    "tailwindcss": "^4.2.4",
+    "typescript": "^5.4.5",
+    "typescript-eslint": "^8.59.1",
+    "vite": "^5.4.21",
+    "vitest": "^2.1.9"
+  },
+  "dependencies": {
+    "react": "^19.2.5",
+    "react-dom": "^19.2.5",
+    "react-router-dom": "^7.14.2"
+  },
+  "optionalDependencies": {
+    "@tailwindcss/oxide-darwin-arm64": "^4.2.4"
   }
 }

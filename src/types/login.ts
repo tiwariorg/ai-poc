@@ -24,7 +24,7 @@
  * ```ts
  * const formData: LoginFormData = {
  *   email: 'user@example.com',
- *   password: 's3cr3t',
+ *   password: process.env.EXAMPLE_USER_PASSWORD,
  *   rememberMe: true,
  * };
  * ```

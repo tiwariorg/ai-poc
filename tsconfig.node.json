@@ -2,6 +2,8 @@
   "compilerOptions": {
     "composite": true,
     "skipLibCheck": true,
+    /* Target a modern Node/ESM context consistent with Vite's own runtime */
+    "target": "ES2022",
     "module": "ESNext",
     "moduleResolution": "bundler",
     "allowSyntheticDefaultImports": true,

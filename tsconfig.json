@@ -14,11 +14,22 @@
     "noEmit": true,
     "jsx": "react-jsx",
 
+    /* Path aliases — keep imports clean as the project grows.
+       baseUrl is required by the 'paths' feature; ignoreDeprecations
+       silences the TS 6 deprecation notice while retaining functionality. */
+    "ignoreDeprecations": "6.0",
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["app/src/*"]
+    },
+
     /* Linting */
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true
+    "noFallthroughCasesInSwitch": true,
+    /* Catch unsafe array/object index access (e.g. form field lookups) */
+    "noUncheckedIndexedAccess": true
   },
   "include": ["app/src"],
   "references": [{ "path": "./tsconfig.node.json" }]

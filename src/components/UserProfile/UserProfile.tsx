@@ -20,12 +20,14 @@ import styles from './UserProfile.module.css';
 function getInitials(name: string): string {
   const parts = name.trim().split(/\s+/);
 
-  if (parts.length === 0 || parts[0] === '') {
+  const firstPart = parts[0];
+  if (parts.length === 0 || firstPart === undefined || firstPart === '') {
     return '?';
   }
 
-  const first = parts[0][0] ?? '';
-  const last = parts.length > 1 ? (parts[parts.length - 1][0] ?? '') : '';
+  const first = firstPart[0] ?? '';
+  const lastPart = parts.length > 1 ? parts[parts.length - 1] : undefined;
+  const last = lastPart !== undefined ? (lastPart[0] ?? '') : '';
 
   return (first + last).toUpperCase();
 }

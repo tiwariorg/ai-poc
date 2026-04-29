@@ -2,8 +2,12 @@
   "name": "ai-poc",
   "version": "1.0.0",
   "description": "Initialized by AI agent.",
+  "type": "module",
   "main": "index.js",
   "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "preview": "vite preview",
     "test": "vitest run",
     "lint": "echo 'No linter configured' && exit 0"
   },

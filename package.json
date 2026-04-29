@@ -9,7 +9,7 @@
     "build": "tsc -b && vite build",
     "preview": "vite preview",
     "test": "vitest run",
-    "lint": "echo 'No linter configured' && exit 0"
+    "lint": "eslint src --ext ts,tsx"
   },
   "repository": {
     "type": "git",
@@ -23,6 +23,7 @@
   },
   "homepage": "https://github.com/tiwariorg/ai-poc#readme",
   "devDependencies": {
+    "@eslint/js": "^9.39.4",
     "@tailwindcss/vite": "^4.2.4",
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.2",
@@ -30,10 +31,15 @@
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^4.3.4",
+    "eslint": "^9.39.4",
+    "eslint-plugin-react-hooks": "^7.1.1",
+    "eslint-plugin-react-refresh": "^0.5.2",
+    "globals": "^17.5.0",
     "js-yaml": "^4.1.0",
     "jsdom": "^29.1.0",
     "tailwindcss": "^4.2.4",
     "typescript": "^5.4.5",
+    "typescript-eslint": "^8.59.1",
     "vite": "^5.4.21",
     "vitest": "^2.1.9"
   },

@@ -26,13 +26,13 @@ function LoginForm(): React.JSX.Element {
   const [passwordError, setPasswordError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
-  function handleEmailChange(value: string): void {
-    setEmail(value);
+  function handleEmailChange(e: ChangeEvent<HTMLInputElement>): void {
+    setEmail(e.target.value);
     setEmailError(null);
   }
 
-  function handlePasswordChange(value: string): void {
-    setPassword(value);
+  function handlePasswordChange(e: ChangeEvent<HTMLInputElement>): void {
+    setPassword(e.target.value);
     setPasswordError(null);
   }
 

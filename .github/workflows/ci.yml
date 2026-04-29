@@ -25,3 +25,30 @@ jobs:
 
       - name: Verify index.html contains '<!DOCTYPE html>'
         run: grep -q '<!DOCTYPE html>' index.html
+
+  build:
+    name: Build & Test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js 18
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run lint
+        run: npm run lint
+        continue-on-error: true
+
+      - name: Run tests
+        run: npm test -- --run
+
+      - name: Build project
+        run: npm run build

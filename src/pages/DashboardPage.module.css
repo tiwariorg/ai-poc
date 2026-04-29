@@ -4,20 +4,29 @@
    ========================================================================== */
 
 /* --------------------------------------------------------------------------
-   Full-viewport centered wrapper
+   Full-viewport centred container  (ticket spec: .container)
    -------------------------------------------------------------------------- */
-.wrapper {
+.container {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   min-height: 100vh;
   background-color: #f5f5f5;
-  padding: 24px;
+  padding: 20px;
   box-sizing: border-box;
 }
 
 /* --------------------------------------------------------------------------
-   Inner content column
+   Alias: DashboardPage.tsx uses `styles.wrapper` as the <main> className.
+   Composing from .container keeps both names in sync without duplication.
+   -------------------------------------------------------------------------- */
+.wrapper {
+  composes: container;
+}
+
+/* --------------------------------------------------------------------------
+   Inner content column  – centres the card and button vertically
    -------------------------------------------------------------------------- */
 .content {
   display: flex;

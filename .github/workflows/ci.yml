@@ -9,6 +9,7 @@ on:
       - '**'
 
 jobs:
+  # ── HTML validation (KAN-12 parity / legacy checks) ───────────────────────
   validate:
     name: Validate HTML
     runs-on: ubuntu-latest
@@ -25,3 +26,34 @@ jobs:
 
       - name: Verify index.html contains '<!DOCTYPE html>'
         run: grep -q '<!DOCTYPE html>' index.html
+
+  # ── Node.js build job (KAN-12) ────────────────────────────────────────────
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint
+        # Uses the 'lint' script defined in package.json.
+        # To switch to ESLint directly once configured, replace with:
+        #   npx eslint src/ --ext .ts,.tsx
+        run: npm run lint
+
+      # TODO: Add test step once a testing framework is confirmed, e.g.:
+      #   - name: Run tests
+      #     run: npm test
+
+      - name: Build
+        run: npm run build

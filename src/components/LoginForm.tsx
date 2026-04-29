@@ -1,93 +1,63 @@
-import React, { ChangeEvent, useState } from 'react';
+import React from 'react';
 
-import { validateEmail, validatePassword } from '../utils/validation';
+import useLoginForm from '../hooks/useLoginForm';
 import EmailInput from './EmailInput';
 import ForgotPasswordLink from './ForgotPasswordLink';
 import PasswordInput from './PasswordInput';
 import RememberMeCheckbox from './RememberMeCheckbox';
-import SignUpLink from './SignUpLink';
 import SubmitButton from './SubmitButton';
 
 /**
- * Standalone login form that validates email/password fields client-side.
+ * Login form component.
  *
- * NOTE: This component does not wire to `AuthContext` directly — it is a
- * presentation-only form used by `src/components/LoginPage.tsx`. The routed
- * version at `src/components/LoginForm/LoginForm.tsx` handles auth integration
- * via `useAuthContext`.
+ * Delegates all form state and event-handling logic to the `useLoginForm`
+ * hook, keeping this component lean and focused purely on rendering.
  *
- * Form submission is a no-op until a real authentication handler is wired in.
+ * Renders:
+ * - An email input field with validation feedback
+ * - A password input field with validation feedback
+ * - A "Remember me" checkbox and "Forgot Password?" link on the same row
+ * - A submit button that reflects the in-progress submission state
  */
 function LoginForm(): React.JSX.Element {
-  const [email, setEmail] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
-  const [rememberMe, setRememberMe] = useState<boolean>(false);
-  const [emailError, setEmailError] = useState<string | null>(null);
-  const [passwordError, setPasswordError] = useState<string | null>(null);
-  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
-
-  function handleEmailChange(e: ChangeEvent<HTMLInputElement>): void {
-    setEmail(e.target.value);
-    setEmailError(null);
-  }
-
-  function handlePasswordChange(e: ChangeEvent<HTMLInputElement>): void {
-    setPassword(e.target.value);
-    setPasswordError(null);
-  }
-
-  function handleRememberMeChange(e: ChangeEvent<HTMLInputElement>): void {
-    setRememberMe(e.target.checked);
-  }
-
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>): void {
-    e.preventDefault();
-
-    const emailValidationError = validateEmail(email);
-    const passwordValidationError = validatePassword(password);
-
-    setEmailError(emailValidationError);
-    setPasswordError(passwordValidationError);
-
-    if (emailValidationError !== null || passwordValidationError !== null) {
-      return;
-    }
-
-    // Fields are valid — suppress the unused `rememberMe` warning by
-    // referencing it, while keeping this as a no-op until auth is wired in.
-    void rememberMe;
-
-    // Mark as submitting (no-op until auth handler is wired in).
-    setIsSubmitting(true);
-    setIsSubmitting(false);
-  }
+  const {
+    formData,
+    errors,
+    isSubmitting,
+    handleEmailChange,
+    handlePasswordChange,
+    handleRememberMeChange,
+    handleSubmit,
+  } = useLoginForm();
 
   return (
     <form onSubmit={handleSubmit} noValidate>
-      <div className="space-y-4">
+      <div className="flex flex-col gap-4">
+        {/* Email field */}
         <EmailInput
-          value={email}
+          value={formData.email}
           onChange={handleEmailChange}
-          error={emailError}
+          error={errors.email}
         />
 
+        {/* Password field */}
         <PasswordInput
-          value={password}
+          value={formData.password}
           onChange={handlePasswordChange}
-          error={passwordError}
+          error={errors.password}
         />
 
-        <div className="flex items-center justify-between">
+        {/* Remember me + Forgot password row */}
+        <div className="flex justify-between items-center">
           <RememberMeCheckbox
-            checked={rememberMe}
+            checked={formData.rememberMe}
             onChange={handleRememberMeChange}
           />
           <ForgotPasswordLink />
         </div>
 
+        {/* Submit button */}
         <SubmitButton isSubmitting={isSubmitting} />
-
-        <SignUpLink />
       </div>
     </form>
   );

@@ -9,7 +9,7 @@ on:
       - '**'
 
 jobs:
-  # ── HTML validation (KAN-12 parity / legacy checks) ───────────────────────
+  # ── HTML validation ────────────────────────────────────────────────────────
   validate:
     name: Validate HTML
     runs-on: ubuntu-latest
@@ -27,7 +27,7 @@ jobs:
       - name: Verify index.html contains '<!DOCTYPE html>'
         run: grep -q '<!DOCTYPE html>' index.html
 
-  # ── Node.js build job (KAN-12) ────────────────────────────────────────────
+  # ── Node.js build job (KAN-13) ────────────────────────────────────────────
   build:
     name: Build
     runs-on: ubuntu-latest
@@ -39,7 +39,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 18
           cache: 'npm'
 
       - name: Install dependencies

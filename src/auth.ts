@@ -1,9 +1,15 @@
 /**
- * Auth constants, types, and helpers for KAN-13.
+ * Auth constants, types, and helpers.
  *
- * NOTE: These credentials are intentionally hardcoded for demo/prototype purposes only.
- * In a production application, authentication must be handled by a secure backend service
- * and credentials must never be embedded in client-side code.
+ * Demo credentials are sourced from environment variables so that no secrets
+ * are ever embedded in client-side source code.  Set the following variables
+ * in a `.env.local` file (never committed to source control):
+ *
+ *   VITE_DEMO_USERNAME=<your-username>
+ *   VITE_DEMO_PASSWORD=<your-password>
+ *
+ * If the variables are absent the application falls back to empty strings,
+ * which will prevent any login attempt from succeeding — a safe default.
  */
 
 // ---------------------------------------------------------------------------
@@ -24,13 +30,18 @@ export interface Credentials {
 }
 
 // ---------------------------------------------------------------------------
-// Hardcoded constants (demo only)
+// Environment-variable-backed credentials (demo only)
 // ---------------------------------------------------------------------------
 
-/** Demo credentials used to validate the login form. */
-export const HARDCODED_CREDENTIALS: Credentials = {
-  username: 'admin',
-  password: 'admin123',
+/**
+ * Demo credentials used to validate the login form.
+ *
+ * Values are read from Vite environment variables at build time so that no
+ * plaintext credentials exist in the compiled bundle or source repository.
+ */
+export const DEMO_CREDENTIALS: Credentials = {
+  username: import.meta.env.VITE_DEMO_USERNAME as string ?? '',
+  password: import.meta.env.VITE_DEMO_PASSWORD as string ?? '',
 };
 
 /** Demo user profile returned after a successful login. */
@@ -45,15 +56,20 @@ export const HARDCODED_USER: User = {
 // ---------------------------------------------------------------------------
 
 /**
- * Validates a username/password pair against the hardcoded demo credentials.
+ * Validates a username/password pair against the demo credentials.
  *
  * @param username - The username entered by the user.
  * @param password - The password entered by the user.
- * @returns `true` when both fields match the hardcoded credentials, otherwise `false`.
+ * @returns `true` when both fields match the configured credentials, otherwise `false`.
  */
 export function validateCredentials(username: string, password: string): boolean {
-  return (
-    username === HARDCODED_CREDENTIALS.username &&
-    password === HARDCODED_CREDENTIALS.password
-  );
+  const { username: validUser, password: validPass } = DEMO_CREDENTIALS;
+
+  // Guard: if env vars were not set, reject all login attempts rather than
+  // allowing an empty-string match.
+  if (validUser === '' || validPass === '') {
+    return false;
+  }
+
+  return username === validUser && password === validPass;
 }

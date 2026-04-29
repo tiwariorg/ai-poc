@@ -8,6 +8,16 @@ import RememberMeCheckbox from './RememberMeCheckbox';
 import SignUpLink from './SignUpLink';
 import SubmitButton from './SubmitButton';
 
+/**
+ * Standalone login form that validates email/password fields client-side.
+ *
+ * NOTE: This component does not wire to `AuthContext` directly — it is a
+ * presentation-only form used by `src/components/LoginPage.tsx`. The routed
+ * version at `src/components/LoginForm/LoginForm.tsx` handles auth integration
+ * via `useAuthContext`.
+ *
+ * Form submission is a no-op until a real authentication handler is wired in.
+ */
 function LoginForm(): React.JSX.Element {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
@@ -42,7 +52,9 @@ function LoginForm(): React.JSX.Element {
       return;
     }
 
-    console.log('Login submitted', { email, rememberMe });
+    // Fields are valid — suppress the unused `rememberMe` warning by
+    // referencing it, while keeping this as a no-op until auth is wired in.
+    void rememberMe;
   }
 
   return (

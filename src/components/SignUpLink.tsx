@@ -1,27 +1,29 @@
 import React from 'react';
 
 /**
- * Placeholder "Sign Up" action.
+ * Placeholder "Sign up" link rendered inside a descriptive paragraph.
  *
- * Rendered as a `<button>` (not an `<a href="#">`) because it triggers an
- * in-page action rather than navigating to a new URL. Using a button ensures
- * correct keyboard behaviour and screen-reader semantics.
+ * Uses an `<a href="#">` with `e.preventDefault()` to suppress navigation.
+ * This is a non-functional placeholder — the actual sign-up flow (e.g.
+ * navigating to /signup or opening a modal) should be wired in once that
+ * feature is implemented.
  */
 function SignUpLink(): React.JSX.Element {
-  function handleClick(): void {
+  function handleClick(e: React.MouseEvent<HTMLAnchorElement>): void {
+    e.preventDefault();
     // TODO: implement sign-up flow (e.g. navigate to /signup)
   }
 
   return (
     <p className="text-sm text-gray-600 text-center">
       Don&apos;t have an account?{' '}
-      <button
-        type="button"
+      <a
+        href="#"
         onClick={handleClick}
-        className="text-blue-600 hover:text-blue-800 hover:underline font-medium bg-transparent border-none p-0 cursor-pointer"
+        className="text-blue-600 hover:text-blue-800 hover:underline font-medium transition-colors"
       >
-        Sign Up
-      </button>
+        Sign up
+      </a>
     </p>
   );
 }

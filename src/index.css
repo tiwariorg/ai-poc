@@ -1,4 +1,10 @@
-/* Tailwind CSS v4 – single import via @tailwindcss/vite plugin */
+/*
+ * KAN-12 – Main CSS entry point
+ *
+ * Tailwind CSS v4 is configured via the @tailwindcss/vite plugin, which
+ * processes the single `@import 'tailwindcss'` below (equivalent to the
+ * classic v3 trio: @tailwind base; @tailwind components; @tailwind utilities;)
+ */
 @import 'tailwindcss';
 
 /* ---------------------------------------------------------------------------
@@ -20,8 +26,18 @@ body,
   height: 100%;
 }
 
+/* ---------------------------------------------------------------------------
+   Base body styles  (KAN-12)
+   • min-height: 100vh  → always fills the viewport
+   • background: gray-100 (#f3f4f6 in Tailwind's default palette)
+   • font-family: font-sans (system UI sans-serif stack)
+--------------------------------------------------------------------------- */
+
 body {
+  min-height: 100vh;
+  background-color: #f3f4f6; /* Tailwind gray-100 */
   font-family:
+    ui-sans-serif,
     system-ui,
     -apple-system,
     BlinkMacSystemFont,
@@ -31,6 +47,7 @@ body {
     Ubuntu,
     Cantarell,
     'Helvetica Neue',
+    Arial,
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

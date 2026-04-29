@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { ChangeEvent, useState } from 'react';
 
 import { validateEmail, validatePassword } from '../utils/validation';
 import EmailInput from './EmailInput';
@@ -24,6 +24,7 @@ function LoginForm(): React.JSX.Element {
   const [rememberMe, setRememberMe] = useState<boolean>(false);
   const [emailError, setEmailError] = useState<string | null>(null);
   const [passwordError, setPasswordError] = useState<string | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
   function handleEmailChange(value: string): void {
     setEmail(value);
@@ -35,8 +36,8 @@ function LoginForm(): React.JSX.Element {
     setPasswordError(null);
   }
 
-  function handleRememberMeChange(checked: boolean): void {
-    setRememberMe(checked);
+  function handleRememberMeChange(e: ChangeEvent<HTMLInputElement>): void {
+    setRememberMe(e.target.checked);
   }
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>): void {
@@ -55,6 +56,10 @@ function LoginForm(): React.JSX.Element {
     // Fields are valid — suppress the unused `rememberMe` warning by
     // referencing it, while keeping this as a no-op until auth is wired in.
     void rememberMe;
+
+    // Mark as submitting (no-op until auth handler is wired in).
+    setIsSubmitting(true);
+    setIsSubmitting(false);
   }
 
   return (
@@ -80,7 +85,7 @@ function LoginForm(): React.JSX.Element {
           <ForgotPasswordLink />
         </div>
 
-        <SubmitButton />
+        <SubmitButton isSubmitting={isSubmitting} />
 
         <SignUpLink />
       </div>

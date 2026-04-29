@@ -1,25 +1,27 @@
 import React from 'react';
 
 /**
- * Placeholder "Forgot Password?" action.
+ * Placeholder "Forgot Password?" link.
  *
- * Rendered as a `<button>` (not an `<a href="#">`) because it triggers an
- * in-page action rather than navigating to a new URL. Using a button ensures
- * correct keyboard behaviour and screen-reader semantics.
+ * Rendered as an `<a href="#">` that suppresses default navigation via
+ * `e.preventDefault()`. This is a non-functional placeholder — the actual
+ * forgot-password flow (e.g. modal or /forgot-password route) should be
+ * wired in once that feature is implemented.
  */
 function ForgotPasswordLink(): React.JSX.Element {
-  function handleClick(): void {
+  function handleClick(e: React.MouseEvent<HTMLAnchorElement>): void {
+    e.preventDefault();
     // TODO: implement forgot-password flow (e.g. open modal or navigate to /forgot-password)
   }
 
   return (
-    <button
-      type="button"
+    <a
+      href="#"
       onClick={handleClick}
-      className="text-sm text-blue-600 hover:text-blue-800 hover:underline cursor-pointer bg-transparent border-none p-0"
+      className="text-sm text-blue-600 hover:text-blue-800 hover:underline transition-colors"
     >
       Forgot Password?
-    </button>
+    </a>
   );
 }
 

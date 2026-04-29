@@ -2,9 +2,12 @@
   "name": "ai-poc",
   "version": "1.0.0",
   "description": "Initialized by AI agent.",
-  "main": "index.js",
+  "type": "module",
   "scripts": {
-    "test": "vitest run",
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "test": "vitest run --config vitest.config.ts",
     "lint": "echo 'No linter configured' && exit 0"
   },
   "repository": {
@@ -18,8 +21,18 @@
     "url": "https://github.com/tiwariorg/ai-poc/issues"
   },
   "homepage": "https://github.com/tiwariorg/ai-poc#readme",
+  "dependencies": {
+    "react": "^19.2.5",
+    "react-dom": "^19.2.5",
+    "react-router-dom": "^6.30.3"
+  },
   "devDependencies": {
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^4.7.0",
     "js-yaml": "^4.1.0",
+    "typescript": "^6.0.3",
+    "vite": "^4.5.14",
     "vitest": "^0.34.6"
   }
 }

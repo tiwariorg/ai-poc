@@ -1,0 +1,37 @@
+/* ==========================================================================
+   DashboardPage – CSS Module
+   KAN-13
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   Full-viewport centred container  (ticket spec: .container)
+   -------------------------------------------------------------------------- */
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background-color: #f5f5f5;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+/* --------------------------------------------------------------------------
+   Alias: DashboardPage.tsx uses `styles.wrapper` as the <main> className.
+   Composing from .container keeps both names in sync without duplication.
+   -------------------------------------------------------------------------- */
+.wrapper {
+  composes: container;
+}
+
+/* --------------------------------------------------------------------------
+   Inner content column  – centres the card and button vertically
+   -------------------------------------------------------------------------- */
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 450px;
+}

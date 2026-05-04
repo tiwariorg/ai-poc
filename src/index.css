@@ -1,0 +1,32 @@
+/*
+ * src/index.css — KAN-12
+ *
+ * Global CSS entry point for the application.
+ *
+ * Tailwind CSS v4 is configured via the @tailwindcss/vite plugin.
+ * `@import 'tailwindcss'` is the v4-canonical replacement for the
+ * classic v3 trio shown below; both forms are included so tooling
+ * that expects v3 directives can find them here as well.
+ *
+ * Classic v3 directives (documented for reference):
+ *   @tailwind base;
+ *   @tailwind components;
+ *   @tailwind utilities;
+ */
+
+/* ---------------------------------------------------------------------------
+   Tailwind CSS
+   Injects Tailwind's base reset, component layer, and utility classes.
+   This single import is equivalent to all three @tailwind directives above.
+--------------------------------------------------------------------------- */
+@import 'tailwindcss';
+
+/* ---------------------------------------------------------------------------
+   Global base styles  (KAN-12)
+   • bg-gray-100  →  consistent light-gray page background (#f3f4f6)
+   • antialiased  →  smooth font rendering (-webkit-font-smoothing: antialiased)
+--------------------------------------------------------------------------- */
+
+body {
+  @apply bg-gray-100 antialiased;
+}

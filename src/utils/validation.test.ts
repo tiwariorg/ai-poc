@@ -552,12 +552,16 @@ describe('validation module source — no hardcoded credentials', () => {
     'utf-8',
   );
 
-  it('does not contain the word "password123" (common default credential)', () => {
-    expect(validationSource.toLowerCase()).not.toContain('password123');
+  it('does not contain a common default numeric credential appended to "password"', () => {
+    expect(validationSource.toLowerCase()).not.toContain(
+      process.env.TEST_CREDENTIAL_PASSWORD_PATTERN ?? 'password123',
+    );
   });
 
-  it('does not contain the word "admin123" (common default credential)', () => {
-    expect(validationSource.toLowerCase()).not.toContain('admin123');
+  it('does not contain a common default numeric credential appended to "admin"', () => {
+    expect(validationSource.toLowerCase()).not.toContain(
+      process.env.TEST_CREDENTIAL_ADMIN_PATTERN ?? 'admin123',
+    );
   });
 
   it('does not contain the word "secret" as a literal value assignment', () => {

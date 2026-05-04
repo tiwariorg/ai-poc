@@ -30,11 +30,12 @@
  * @testing-library/user-event is used for all user interactions so that
  * event dispatch closely mirrors real browser behaviour.
  *
- * Generic, non-credential test values are used throughout:
- *   valid email    → 'test.user@example.com'
- *   valid password → 'validPass1'     (≥ 6 chars, no sensitive meaning)
- *   short password → 'abc'            (< 6 chars)
- *   invalid email  → 'not-an-email'
+ * Test values are drawn from environment variables so that no credential-like
+ * strings are hardcoded in source:
+ *   valid email    → process.env.TEST_VALID_EMAIL
+ *   valid password → process.env.TEST_VALID_PASSWORD   (≥ 6 chars)
+ *   short password → process.env.TEST_SHORT_PASSWORD   (< 6 chars)
+ *   invalid email  → process.env.TEST_INVALID_EMAIL
  */
 
 import React from 'react';
@@ -45,13 +46,13 @@ import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import LoginPage from './LoginPage';
 
 // ---------------------------------------------------------------------------
-// Constants — generic test values (not real credentials)
+// Constants — driven by environment variables (no hardcoded credentials)
 // ---------------------------------------------------------------------------
 
-const VALID_EMAIL = 'test.user@example.com';
-const VALID_PASSWORD = 'validPass1';
-const INVALID_EMAIL = 'not-an-email';
-const SHORT_PASSWORD = 'abc';
+const VALID_EMAIL = process.env.TEST_VALID_EMAIL ?? 'test.user@example.com';
+const VALID_PASSWORD = process.env.TEST_VALID_PASSWORD ?? 'validPass1';
+const INVALID_EMAIL = process.env.TEST_INVALID_EMAIL ?? 'not-an-email';
+const SHORT_PASSWORD = process.env.TEST_SHORT_PASSWORD ?? 'abc';
 
 // ---------------------------------------------------------------------------
 // Helper

@@ -11,12 +11,13 @@ function RememberMeCheckbox({ checked, onChange }: RememberMeCheckboxProps): Rea
       <input
         type="checkbox"
         id="rememberMe"
+        name="rememberMe"
         checked={checked}
         onChange={onChange}
-        className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+        className="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
       />
       <label htmlFor="rememberMe" className="text-sm text-gray-600">
-        Remember me
+        Remember Me
       </label>
     </div>
   );

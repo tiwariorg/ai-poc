@@ -33,18 +33,18 @@ function LoginForm(): React.JSX.Element {
   return (
     <form onSubmit={handleSubmit} noValidate>
       <div className="flex flex-col gap-4">
-        {/* Email field */}
+        {/* Email field — convert null → undefined to match EmailInputProps */}
         <EmailInput
           value={formData.email}
           onChange={handleEmailChange}
-          error={errors.email}
+          error={errors.email ?? undefined}
         />
 
-        {/* Password field */}
+        {/* Password field — convert null → undefined to match PasswordInputProps */}
         <PasswordInput
           value={formData.password}
           onChange={handlePasswordChange}
-          error={errors.password}
+          error={errors.password ?? undefined}
         />
 
         {/* Remember me + Forgot password row */}

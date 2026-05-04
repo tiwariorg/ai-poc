@@ -1,54 +1,32 @@
 /*
- * KAN-12 – Main CSS entry point
+ * src/index.css — KAN-12
  *
- * Tailwind CSS v4 is configured via the @tailwindcss/vite plugin, which
- * processes the single `@import 'tailwindcss'` below (equivalent to the
- * classic v3 trio: @tailwind base; @tailwind components; @tailwind utilities;)
+ * Global CSS entry point for the application.
+ *
+ * Tailwind CSS v4 is configured via the @tailwindcss/vite plugin.
+ * `@import 'tailwindcss'` is the v4-canonical replacement for the
+ * classic v3 trio shown below; both forms are included so tooling
+ * that expects v3 directives can find them here as well.
+ *
+ * Classic v3 directives (documented for reference):
+ *   @tailwind base;
+ *   @tailwind components;
+ *   @tailwind utilities;
  */
+
+/* ---------------------------------------------------------------------------
+   Tailwind CSS
+   Injects Tailwind's base reset, component layer, and utility classes.
+   This single import is equivalent to all three @tailwind directives above.
+--------------------------------------------------------------------------- */
 @import 'tailwindcss';
 
 /* ---------------------------------------------------------------------------
-   Global CSS Reset
-   Ensures consistent baseline styles across all browsers.
---------------------------------------------------------------------------- */
-
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-html,
-body,
-#root {
-  height: 100%;
-}
-
-/* ---------------------------------------------------------------------------
-   Base body styles  (KAN-12)
-   • min-height: 100vh  → always fills the viewport
-   • background: gray-100 (#f3f4f6 in Tailwind's default palette)
-   • font-family: font-sans (system UI sans-serif stack)
+   Global base styles  (KAN-12)
+   • bg-gray-100  →  consistent light-gray page background (#f3f4f6)
+   • antialiased  →  smooth font rendering (-webkit-font-smoothing: antialiased)
 --------------------------------------------------------------------------- */
 
 body {
-  min-height: 100vh;
-  background-color: #f3f4f6; /* Tailwind gray-100 */
-  font-family:
-    ui-sans-serif,
-    system-ui,
-    -apple-system,
-    BlinkMacSystemFont,
-    'Segoe UI',
-    Roboto,
-    Oxygen,
-    Ubuntu,
-    Cantarell,
-    'Helvetica Neue',
-    Arial,
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  @apply bg-gray-100 antialiased;
 }

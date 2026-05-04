@@ -1,7 +1,7 @@
 import React from 'react';
 
 /**
- * Placeholder "Sign Up" link rendered inside a descriptive paragraph.
+ * Placeholder "Sign up" link rendered inside a descriptive paragraph.
  *
  * Uses an `<a href="#">` with `e.preventDefault()` to suppress navigation.
  * This is a non-functional placeholder — the actual sign-up flow (e.g.
@@ -22,7 +22,7 @@ function SignUpLink(): React.JSX.Element {
         onClick={handleClick}
         className="text-blue-600 hover:text-blue-800 hover:underline font-semibold ml-1"
       >
-        Sign Up
+        Sign up
       </a>
     </p>
   );

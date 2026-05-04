@@ -86,14 +86,12 @@ function LoginForm({
    * Prefer externally-provided props; fall back to the internal hook values.
    * This allows the component to work both as a standalone form and as a
    * fully-controlled form driven by a parent.
+   *
+   * The hook now returns `ValidationErrors` directly (optional string fields),
+   * so no conversion is needed when falling back to internal state.
    */
   const formData: LoginFormData = formDataProp ?? internalFormData;
-
-  const errors: ValidationErrors = errorsProp ?? {
-    email: internalErrors.email ?? undefined,
-    password: internalErrors.password ?? undefined,
-  };
-
+  const errors: ValidationErrors = errorsProp ?? internalErrors;
   const isSubmitting: boolean = isSubmittingProp ?? internalIsSubmitting;
 
   const resolvedOnEmailChange = onEmailChange ?? handleEmailChange;

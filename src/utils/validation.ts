@@ -86,3 +86,80 @@ export function validatePassword(password: string): string | null {
 
   return null;
 }
+
+// ---------------------------------------------------------------------------
+// LoginFormFields / LoginFormValidationResult
+// ---------------------------------------------------------------------------
+
+/**
+ * The subset of form field values that `validateLoginForm` operates on.
+ */
+export interface LoginFormFields {
+  /** The email address entered by the user. */
+  email: string;
+  /** The password entered by the user. */
+  password: string;
+}
+
+/**
+ * The result produced by `validateLoginForm`.
+ *
+ * Keys are only present when the corresponding field has a validation error.
+ * An empty object (`{}`) means all fields are valid.
+ */
+export interface LoginFormValidationResult {
+  /** Validation error message for the email field, if any. */
+  email?: string;
+  /** Validation error message for the password field, if any. */
+  password?: string;
+}
+
+// ---------------------------------------------------------------------------
+// validateLoginForm
+// ---------------------------------------------------------------------------
+
+/**
+ * Validates all fields of the login form in a single call.
+ *
+ * Internally delegates to {@link validateEmail} and {@link validatePassword}.
+ * Only properties whose fields failed validation are included in the returned
+ * object, so callers can test for errors with a simple `'email' in result`
+ * guard or by checking `Object.keys(result).length`.
+ *
+ * @param fields - An object containing the raw `email` and `password` strings.
+ * @returns A {@link LoginFormValidationResult} object that is empty when both
+ *          fields are valid, or contains one/both error strings when
+ *          validation fails.
+ *
+ * @example
+ * ```ts
+ * // Both fields invalid
+ * validateLoginForm({ email: '', password: '' });
+ * // → { email: 'Email is required.', password: 'Password is required.' }
+ *
+ * // Only email invalid
+ * validateLoginForm({ email: 'bad', password: 'validpass' });
+ * // → { email: 'Please enter a valid email address.' }
+ *
+ * // Both valid
+ * validateLoginForm({ email: 'user@example.com', password: 'validpass' });
+ * // → {}
+ * ```
+ */
+export function validateLoginForm(
+  fields: LoginFormFields,
+): LoginFormValidationResult {
+  const result: LoginFormValidationResult = {};
+
+  const emailError = validateEmail(fields.email);
+  if (emailError !== null) {
+    result.email = emailError;
+  }
+
+  const passwordError = validatePassword(fields.password);
+  if (passwordError !== null) {
+    result.password = passwordError;
+  }
+
+  return result;
+}

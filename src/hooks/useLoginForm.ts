@@ -1,5 +1,6 @@
 // ---------------------------------------------------------------------------
 // useLoginForm — custom hook
+// KAN-12
 // ---------------------------------------------------------------------------
 // Manages all form state and event-handling logic for the login form.
 //
@@ -9,7 +10,7 @@
 
 import { useState, type ChangeEvent, type FormEvent } from 'react';
 
-import type { LoginFormData, LoginFormErrors } from '../types/login';
+import type { LoginFormData, ValidationErrors } from '../types/login';
 import { validateEmail, validatePassword } from '../utils/validation';
 
 // ---------------------------------------------------------------------------
@@ -22,8 +23,11 @@ import { validateEmail, validatePassword } from '../utils/validation';
 export interface UseLoginFormReturn {
   /** Current values for all form fields. */
   formData: LoginFormData;
-  /** Per-field validation errors; `null` means the field is currently valid. */
-  errors: LoginFormErrors;
+  /**
+   * Per-field validation error messages.
+   * When a key is absent (or `undefined`) the corresponding field is valid.
+   */
+  errors: ValidationErrors;
   /**
    * `true` while the form submission is being processed.
    * Useful for disabling the submit button and showing a loading indicator.
@@ -45,6 +49,11 @@ export interface UseLoginFormReturn {
 
 /**
  * Custom hook that manages all state and logic for the login form.
+ *
+ * State managed:
+ * - `formData: LoginFormData` — initialized as `{ email: '', password: '', rememberMe: false }`
+ * - `errors: ValidationErrors` — initialized as `{}`
+ * - `isSubmitting: boolean` — initialized as `false`
  *
  * @returns An object containing `formData`, `errors`, `isSubmitting`, and
  *          the four event handlers needed to wire up a login form.
@@ -72,11 +81,10 @@ function useLoginForm(): UseLoginFormReturn {
   });
 
   // ── Per-field validation errors ──────────────────────────────────────────
+  // Initialized as an empty object — the absence of a key means the field
+  // is currently valid / has not yet been validated.
 
-  const [errors, setErrors] = useState<LoginFormErrors>({
-    email: null,
-    password: null,
-  });
+  const [errors, setErrors] = useState<ValidationErrors>({});
 
   // ── Submission state ─────────────────────────────────────────────────────
 
@@ -91,7 +99,12 @@ function useLoginForm(): UseLoginFormReturn {
     const email = e.target.value;
 
     setFormData((prev) => ({ ...prev, email }));
-    setErrors((prev) => ({ ...prev, email: null }));
+    // Clear only the email error; leave other fields' errors intact.
+    setErrors((prev) => {
+      const { email: _cleared, ...rest } = prev;
+      void _cleared;
+      return rest;
+    });
   }
 
   /**
@@ -102,7 +115,12 @@ function useLoginForm(): UseLoginFormReturn {
     const password = e.target.value;
 
     setFormData((prev) => ({ ...prev, password }));
-    setErrors((prev) => ({ ...prev, password: null }));
+    // Clear only the password error; leave other fields' errors intact.
+    setErrors((prev) => {
+      const { password: _cleared, ...rest } = prev;
+      void _cleared;
+      return rest;
+    });
   }
 
   /**
@@ -120,28 +138,39 @@ function useLoginForm(): UseLoginFormReturn {
    * Steps performed:
    * 1. Prevents the browser's default form-submission behaviour.
    * 2. Runs `validateEmail` and `validatePassword` on the current values.
-   * 3. If either produces an error, persists the errors and returns early.
-   * 4. If both pass, briefly sets `isSubmitting` to `true`, logs the
-   *    non-sensitive fields to the console, then resets `isSubmitting`.
+   * 3. If either produces an error, persists the errors in state and returns
+   *    early without submitting.
+   * 4. If both pass, sets `isSubmitting` to `true`, logs the non-sensitive
+   *    form data to the console (stubbed submit), then sets `isSubmitting`
+   *    back to `false`.
    *
    * **Security note:** The password is intentionally omitted from the log.
    */
   function handleSubmit(e: FormEvent<HTMLFormElement>): void {
     e.preventDefault();
 
+    // Run validation against current field values.
     const emailError = validateEmail(formData.email);
     const passwordError = validatePassword(formData.password);
 
-    // Always write the latest validation results to state so the UI reflects
-    // whichever fields are still invalid.
-    setErrors({ email: emailError, password: passwordError });
+    // Build a ValidationErrors object from whichever fields failed.
+    const nextErrors: ValidationErrors = {};
 
-    // Abort early if there are any validation errors.
+    if (emailError !== null) {
+      nextErrors.email = emailError;
+    }
+
+    if (passwordError !== null) {
+      nextErrors.password = passwordError;
+    }
+
+    // If there are any validation errors, surface them and bail out.
     if (emailError !== null || passwordError !== null) {
+      setErrors(nextErrors);
       return;
     }
 
-    // All fields are valid — proceed with submission.
+    // All fields are valid — proceed with (stubbed) submission.
     setIsSubmitting(true);
 
     // Log non-sensitive submission data (password is intentionally excluded).

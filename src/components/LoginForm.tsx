@@ -1,57 +1,130 @@
-import React from 'react';
+import React, { type ChangeEvent, type FormEvent } from 'react';
 
 import useLoginForm from '../hooks/useLoginForm';
+import type { LoginFormData, ValidationErrors } from '../types/login';
 import EmailInput from './EmailInput';
 import ForgotPasswordLink from './ForgotPasswordLink';
 import PasswordInput from './PasswordInput';
 import RememberMeCheckbox from './RememberMeCheckbox';
 import SubmitButton from './SubmitButton';
 
+// ---------------------------------------------------------------------------
+// Props interface
+// ---------------------------------------------------------------------------
+
 /**
- * Login form component.
+ * Props for the controlled variant of `LoginForm`.
  *
- * Delegates all form state and event-handling logic to the `useLoginForm`
- * hook, keeping this component lean and focused purely on rendering.
- *
- * Renders:
- * - An email input field with validation feedback
- * - A password input field with validation feedback
- * - A "Remember me" checkbox and "Forgot Password?" link on the same row
- * - A submit button that reflects the in-progress submission state
+ * All props are optional. When omitted, the component manages its own state
+ * internally via the `useLoginForm` hook (uncontrolled/self-contained mode).
  */
-function LoginForm(): React.JSX.Element {
+export interface LoginFormProps {
+  /** Current form field values. */
+  formData?: LoginFormData;
+  /** Per-field validation error messages. */
+  errors?: ValidationErrors;
+  /** Whether a form submission is currently in progress. */
+  isSubmitting?: boolean;
+  /** Change handler for the email input. */
+  onEmailChange?: (e: ChangeEvent<HTMLInputElement>) => void;
+  /** Change handler for the password input. */
+  onPasswordChange?: (e: ChangeEvent<HTMLInputElement>) => void;
+  /** Change handler for the "remember me" checkbox. */
+  onRememberMeChange?: (e: ChangeEvent<HTMLInputElement>) => void;
+  /** Submit handler for the form element. */
+  onSubmit?: (e: FormEvent<HTMLFormElement>) => void;
+}
+
+// ---------------------------------------------------------------------------
+// Component
+// ---------------------------------------------------------------------------
+
+/**
+ * LoginForm component.
+ *
+ * Supports two usage modes:
+ *
+ * **Uncontrolled (standalone)** — render `<LoginForm />` without props.
+ * All state and event-handling is managed internally by the `useLoginForm`
+ * hook. This is the default mode used by `LoginPage`.
+ *
+ * **Controlled** — pass `formData`, `errors`, `isSubmitting`, and the four
+ * `on*` callback props to fully control the form from the outside.
+ *
+ * Renders (in order):
+ * - `EmailInput` — email field with value, onChange, and optional error
+ * - `PasswordInput` — password field with value, onChange, and optional error
+ * - A flex row with `RememberMeCheckbox` (left) and `ForgotPasswordLink` (right)
+ * - `SubmitButton` — reflects the `isSubmitting` state
+ *
+ * Spacing between elements is provided by the `flex flex-col gap-4` wrapper.
+ */
+function LoginForm({
+  formData: formDataProp,
+  errors: errorsProp,
+  isSubmitting: isSubmittingProp,
+  onEmailChange,
+  onPasswordChange,
+  onRememberMeChange,
+  onSubmit,
+}: LoginFormProps = {}): React.JSX.Element {
+  // ── Internal state (used in uncontrolled / standalone mode) ───────────────
+
   const {
-    formData,
-    errors,
-    isSubmitting,
+    formData: internalFormData,
+    errors: internalErrors,
+    isSubmitting: internalIsSubmitting,
     handleEmailChange,
     handlePasswordChange,
     handleRememberMeChange,
     handleSubmit,
   } = useLoginForm();
 
+  // ── Resolve controlled vs. uncontrolled values ────────────────────────────
+
+  /**
+   * Prefer externally-provided props; fall back to the internal hook values.
+   * This allows the component to work both as a standalone form and as a
+   * fully-controlled form driven by a parent.
+   */
+  const formData: LoginFormData = formDataProp ?? internalFormData;
+
+  const errors: ValidationErrors = errorsProp ?? {
+    email: internalErrors.email ?? undefined,
+    password: internalErrors.password ?? undefined,
+  };
+
+  const isSubmitting: boolean = isSubmittingProp ?? internalIsSubmitting;
+
+  const resolvedOnEmailChange = onEmailChange ?? handleEmailChange;
+  const resolvedOnPasswordChange = onPasswordChange ?? handlePasswordChange;
+  const resolvedOnRememberMeChange = onRememberMeChange ?? handleRememberMeChange;
+  const resolvedOnSubmit = onSubmit ?? handleSubmit;
+
+  // ── Render ────────────────────────────────────────────────────────────────
+
   return (
-    <form onSubmit={handleSubmit} noValidate>
+    <form onSubmit={resolvedOnSubmit} noValidate>
       <div className="flex flex-col gap-4">
-        {/* Email field — convert null → undefined to match EmailInputProps */}
+        {/* Email field */}
         <EmailInput
           value={formData.email}
-          onChange={handleEmailChange}
-          error={errors.email ?? undefined}
+          onChange={resolvedOnEmailChange}
+          error={errors.email}
         />
 
-        {/* Password field — convert null → undefined to match PasswordInputProps */}
+        {/* Password field */}
         <PasswordInput
           value={formData.password}
-          onChange={handlePasswordChange}
-          error={errors.password ?? undefined}
+          onChange={resolvedOnPasswordChange}
+          error={errors.password}
         />
 
         {/* Remember me + Forgot password row */}
         <div className="flex justify-between items-center">
           <RememberMeCheckbox
             checked={formData.rememberMe}
-            onChange={handleRememberMeChange}
+            onChange={resolvedOnRememberMeChange}
           />
           <ForgotPasswordLink />
         </div>
